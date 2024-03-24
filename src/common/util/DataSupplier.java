@@ -23,6 +23,11 @@ public class DataSupplier {
     private DataSupplier() {}
 
     public static List<Employee> generateRandomEmployees(int numOfEmployees) {
+
+        if (numOfEmployees <= 0) {
+            throw new IllegalArgumentException("Number of employees cannot be zero or negative");
+        }
+
         List<Employee> employees = new ArrayList<>();
         Random random = new Random();
 
@@ -39,12 +44,12 @@ public class DataSupplier {
     public static Comparator<Employee> getEmployeeComparatorBy(final String compareBy) {
 
         return switch (compareBy.toLowerCase()) {
+            case "id" -> Comparator.comparing(Employee::getId);
             case "firstname" -> Comparator.comparing(Employee::getFirstName);
             case "lastname" -> Comparator.comparing(Employee::getLastName);
-            case "email" -> Comparator.comparing(Employee::getEmail);
-            case "all" -> Comparator.comparing(Employee::getFirstName)
-                    .thenComparing(Employee::getLastName)
-                    .thenComparing(Employee::getEmail);
+            case "all" -> Comparator.comparing(Employee::getId)
+                    .thenComparing(Employee::getFirstName)
+                    .thenComparing(Employee::getLastName);
             default -> throw new IllegalArgumentException("Invalid field for comparison: " + compareBy);
         };
 
