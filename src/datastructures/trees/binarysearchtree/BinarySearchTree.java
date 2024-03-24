@@ -1,20 +1,10 @@
 package datastructures.trees.binarysearchtree;
 
-import java.util.function.Consumer;
+import datastructures.trees.AbstractBinaryTree;
 
-public class BinarySearchTree <T extends Comparable<T>> {
+public class BinarySearchTree <T extends Comparable<T>> extends AbstractBinaryTree<T> {
 
-    private Node<T> root;
-
-    private static class Node <T extends Comparable<T>> {
-        T data;
-        Node<T> left, right;
-
-        Node(T data) {
-            this.data = data;
-        }
-    }
-
+    @Override
     public void insert(T data) {
         if (data == null) {
             throw new IllegalArgumentException("Provided data cannot be null");
@@ -22,17 +12,21 @@ public class BinarySearchTree <T extends Comparable<T>> {
         root = insert(root, data);
     }
 
-    private Node<T> insert(Node<T> node, T data) {
+    protected Node<T> insert(Node<T> node, T data) {
         if (node == null) {
             return new Node<>(data);
-        } else if (data.compareTo(node.data) < 0) {
-            node.left = insert(node.left, data);
-        } else if (data.compareTo(node.data) > 0) {
-            node.right = insert(node.right, data);
+        } else {
+            int comparison = data.compareTo(node.data);
+            if (comparison < 0) {
+                node.left = insert(node.left, data);
+            } else if (comparison > 0) {
+                node.right = insert(node.right, data);
+            }
         }
         return node;
     }
 
+    @Override
     public void delete(T data) {
         if (data == null) {
             throw new IllegalArgumentException("Provided data cannot be null");
@@ -40,7 +34,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
         root = delete(root, data);
     }
 
-    private Node<T> delete(Node<T> node, T data) {
+    protected Node<T> delete(Node<T> node, T data) {
         if (node == null) {
             return null;
         }
@@ -64,6 +58,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return node;
     }
 
+    @Override
     public T findMin() {
         Node<T> minNode = findMinNode(root);
         return (minNode != null) ? minNode.data : null;
@@ -76,6 +71,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return node;
     }
 
+    @Override
     public T findMax() {
         Node<T> maxNode = findNaxNode(root);
         return (maxNode != null) ? maxNode.data : null;
@@ -88,6 +84,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return node;
     }
 
+    @Override
     public boolean contains(T data) {
         return contains(root, data);
     }
@@ -97,55 +94,17 @@ public class BinarySearchTree <T extends Comparable<T>> {
             return false;
         }
 
-        int cmp = data.compareTo(node.data);
-        if (cmp < 0) {
+        int comparison = data.compareTo(node.data);
+        if (comparison < 0) {
             return contains(node.left, data);
-        } else if (cmp > 0) {
+        } else if (comparison > 0) {
             return contains(node.right, data);
         } else {
             return true;
         }
     }
 
-    public void inorder(Consumer<T> action) {
-        inorder(root, action);
-    }
-
-    private void inorder(Node<T> node, Consumer<T> action) {
-        if (node == null) {
-            return;
-        }
-        inorder(node.left, action);
-        action.accept(node.data);
-        inorder(node.right, action);
-    }
-
-    public void preorder(Consumer<T> action) {
-        preorder(root, action);
-    }
-
-    private void preorder(Node<T> node, Consumer<T> action) {
-        if (node == null) {
-            return;
-        }
-        action.accept(node.data);
-        preorder(node.left, action);
-        preorder(node.right, action);
-    }
-
-    public void postorder(Consumer<T> action) {
-        postorder(root, action);
-    }
-
-    private void postorder(Node<T> node, Consumer<T> action) {
-        if (node == null) {
-            return;
-        }
-        postorder(node.left, action);
-        postorder(node.right, action);
-        action.accept(node.data);
-    }
-
+    @Override
     public int size() {
         return size(root);
     }
@@ -157,6 +116,7 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return size(node.left) + 1 + size(node.right);
     }
 
+    @Override
     public int height() {
         return height(root);
     }
@@ -171,10 +131,12 @@ public class BinarySearchTree <T extends Comparable<T>> {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
+    @Override
     public boolean isEmpty() {
         return (root == null);
     }
 
+    @Override
     public void clear() {
         root = null;
     }
