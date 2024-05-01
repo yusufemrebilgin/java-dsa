@@ -1,16 +1,18 @@
 package algorithms.sorts;
 
-import java.util.Random;
+import common.util.ArrayUtil;
+
+import java.util.Arrays;
 
 public class InsertionSort {
 
     public static void main(String[] args) {
         // Getting a random array of the given size and between 0 to given bound
-        int[] array = getRandomArray(30, 100);
+        int[] array = ArrayUtil.generateRandomArray(30, 0, 100);
 
-        printArray(array);
+        System.out.println(Arrays.toString(array));
         insertionSort(array);
-        printArray(array);
+        System.out.println(Arrays.toString(array));
         
     }
 
@@ -24,26 +26,6 @@ public class InsertionSort {
             }
             array[j + 1] = key;
         }
-    }
-
-    public static int[] getRandomArray(int size, int bound) {
-        int[] array = new int[size];
-        Random random = new Random();
-        for (int i = 0; i < size; i++) {
-            array[i] = random.nextInt(bound);
-        }
-        return array;
-    }
-
-    public static void printArray(final int[] array) {
-        System.out.print("[");
-        for (int i = 0; i < array.length; i++) {
-            if (i == array.length - 1)
-                System.out.print(array[i] + "]");
-            else
-                System.out.print(array[i] + ", ");
-        }
-        System.out.println();
     }
 
 }
