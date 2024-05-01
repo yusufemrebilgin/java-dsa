@@ -1,7 +1,7 @@
 package datastructures.trees.main;
 
 import common.model.Employee;
-import common.util.DataSupplier;
+import common.util.EmployeeUtil;
 import datastructures.trees.BinaryTree;
 import datastructures.trees.TraversalOrder;
 import datastructures.trees.avl.AVLTree;
@@ -22,7 +22,7 @@ public class Main {
 
     public static void testTree(TreeStructure structure) {
         BinaryTree<Employee> tree = createTree(structure);
-        List<Employee> employees = DataSupplier.generateRandomEmployees(10);
+        List<Employee> employees = EmployeeUtil.generateRandomEmployees(10);
 
         for (Employee e : employees) {
             System.out.println("Adding employee with ID: " + e.getId());
